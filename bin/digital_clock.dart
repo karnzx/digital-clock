@@ -5,8 +5,12 @@ class Clock {
   int mins = 0;
   String get currentTime => '$hours : $mins';
 
-  void turnOn() {
-    states[currentState].turnOn(this);
+  void turnOn([int? hours, int? mins]) {
+    if (hours is null && mins is null){
+      currentState = 1;
+    }else{
+      states[currentState].turnOn(this);
+    }
   }
 
   void set() {
@@ -80,8 +84,8 @@ class SettingMins extends State {
 
 void main(List<String> arguments) {
   List<String> msgs = [
-    // 'on 18 0',
-    'on',
+    'on 18 0',
+    // 'on',
     'set',
     'inc',
     'set',
@@ -102,7 +106,13 @@ void main(List<String> arguments) {
   for (var msg in msgs) {
     print('>>>>> $msg , ${clock.states[clock.currentState]}');
     if (msg.contains('on')) {
-      clock.turnOn();
+      if (msg.split(' ').length > 1) {
+        int hours = int.parse(msg.split(' ')[1]);
+        int mins = int.parse(msg.split(' ')[2]);
+        clock.turnOn(hours,mins);
+      } else {
+        clock.turnOn();
+      }
     } else if (msg == 'set') {
       clock.set();
     } else if (msg == 'inc') {
