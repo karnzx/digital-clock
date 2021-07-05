@@ -46,6 +46,7 @@ class Idle extends State {
   void set(Clock clock) {
     clock.changeState(1);
     print('beep');
+    print(clock.hours);
   }
 }
 
@@ -53,11 +54,14 @@ class SettingHours extends State {
   @override
   void set(Clock clock) {
     clock.changeState(2);
+    print('beep');
+    print(clock.mins);
   }
 
   @override
   void inc(Clock clock) {
     clock.hours = (clock.hours + 1) % 24;
+    print(clock.hours);
   }
 }
 
@@ -70,12 +74,14 @@ class SettingMins extends State {
   @override
   void inc(Clock clock) {
     clock.mins = (clock.mins + 1) % 60;
+    print(clock.mins);
   }
 }
 
 void main(List<String> arguments) {
   List<String> msgs = [
-    'on 18 0',
+    // 'on 18 0',
+    'on',
     'set',
     'inc',
     'set',
@@ -85,7 +91,23 @@ void main(List<String> arguments) {
     'inc',
     'set'
   ];
+
+  Clock clock = Clock();
+
+  // if (msgs[0].split(' ').length > 1) {
+  //   clock = Clock();
+  //   print('with hour, mins');
+  // }
+  // msgs.removeAt(0);
   for (var msg in msgs) {
-    print(msg);
+    print('>>>>> $msg , ${clock.states[clock.currentState]}');
+    if (msg.contains('on')) {
+      clock.turnOn();
+    } else if (msg == 'set') {
+      clock.set();
+    } else if (msg == 'inc') {
+      clock.inc();
+    }
+    // print('>>>>> ${clock.states[clock.currentState]}');
   }
 }
