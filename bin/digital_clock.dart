@@ -5,8 +5,8 @@ class Clock {
   int currentMins = 0;
   String get currentTime => '$currentHours:$currentMins';
 
-  void turnOn([int hours = -1, int mins = -1]) {
-    if (hours == -1 && mins == -1) {
+  void turnOn([hours, mins]) {
+    if (hours == null && mins == null) {
       states[currentState].turnOn(this);
     } else {
       currentHours = hours;
@@ -37,15 +37,15 @@ class Clock {
   }
 
   void showCurrentTime() {
-    print('Current Time is ${currentTime}');
+    print('Current Time is $currentTime');
   }
 
   void showHours() {
-    print('Current Hours is ${currentHours}');
+    print('Current Hours is $currentHours');
   }
 
   void showMins() {
-    print('Current Mins is ${currentMins}');
+    print('Current Mins is $currentMins');
   }
 }
 
@@ -117,11 +117,6 @@ void main(List<String> arguments) {
 
   Clock clock = Clock();
 
-  // if (msgs[0].split(' ').length > 1) {
-  //   clock = Clock();
-  //   print('with hour, mins');
-  // }
-  // msgs.removeAt(0);
   for (var msg in msgs) {
     // print('>> >>> $msg , ${clock.states[clock.currentState]}');
     if (msg.contains('on')) {
