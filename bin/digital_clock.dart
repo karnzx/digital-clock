@@ -7,7 +7,7 @@ class Clock {
 
   void turnOn([hours, mins]) {
     if (hours == null && mins == null) {
-      states[currentState].turnOn(this);
+      changeState(0);
     } else {
       currentHours = hours;
       currentMins = mins;
@@ -50,10 +50,6 @@ class Clock {
 }
 
 abstract class State {
-  void turnOn(Clock clock) {
-    print('error');
-  }
-
   void set(Clock clock) {
     print('error');
   }
@@ -64,11 +60,6 @@ abstract class State {
 }
 
 class Idle extends State {
-  @override
-  void turnOn(Clock clock) {
-    clock.showCurrentTime();
-  }
-
   @override
   void set(Clock clock) {
     clock.changeState(1);
@@ -115,7 +106,7 @@ void main(List<String> arguments) {
     'set'
   ];
 
-  Clock clock = Clock();
+  var clock = Clock();
 
   for (var msg in msgs) {
     // print('>> >>> $msg , ${clock.states[clock.currentState]}');
