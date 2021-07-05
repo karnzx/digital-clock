@@ -37,15 +37,15 @@ class Clock {
   }
 
   void showCurrentTime() {
-    print('Current Time is ${this.currentTime}');
+    print('Current Time is ${currentTime}');
   }
 
   void showHours() {
-    print('Current Hours is ${this.currentHours}');
+    print('Current Hours is ${currentHours}');
   }
 
   void showMins() {
-    print('Current Mins is ${this.currentMins}');
+    print('Current Mins is ${currentMins}');
   }
 }
 
@@ -102,7 +102,7 @@ class SettingMins extends State {
 }
 
 void main(List<String> arguments) {
-  List<String> msgs = [
+  var msgs = [
     // 'on',
     'on 18 0',
     'set',
@@ -126,8 +126,8 @@ void main(List<String> arguments) {
     // print('>> >>> $msg , ${clock.states[clock.currentState]}');
     if (msg.contains('on')) {
       if (msg.split(' ').length > 1) {
-        int hours = int.parse(msg.split(' ')[1]);
-        int mins = int.parse(msg.split(' ')[2]);
+        var hours = int.parse(msg.split(' ')[1]);
+        var mins = int.parse(msg.split(' ')[2]);
         clock.turnOn(hours, mins);
       } else {
         clock.turnOn();
