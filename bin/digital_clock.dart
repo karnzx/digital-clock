@@ -1,15 +1,9 @@
-// on 18 0
-// set
-// inc
-// set
-// inc
-// set
-// inc
-// inc
-// set
 class Clock {
   final List<State> states = [Idle(), SettingHours(), SettingMins()];
-  final int currentState = 0;
+  int currentState = 0;
+  int hours = 0;
+  int mins = 0;
+  String get currentTime => '$hours : $mins';
 
   void turnOn() {
     states[currentState].turnOn(this);
@@ -21,6 +15,10 @@ class Clock {
 
   void inc() {
     states[currentState].inc(this);
+  }
+
+  void changeState(int index) {
+    currentState = index;
   }
 }
 
@@ -38,11 +36,42 @@ abstract class State {
   }
 }
 
-class Idle extends State {}
+class Idle extends State {
+  @override
+  void turnOn(Clock clock) {
+    print(clock.currentTime);
+  }
 
-class SettingHours extends State {}
+  @override
+  void set(Clock clock) {
+    clock.changeState(1);
+    print('beep');
+  }
+}
 
-class SettingMins extends State {}
+class SettingHours extends State {
+  @override
+  void set(Clock clock) {
+    clock.changeState(2);
+  }
+
+  @override
+  void inc(Clock clock) {
+    clock.hours = (clock.hours + 1) % 24;
+  }
+}
+
+class SettingMins extends State {
+  @override
+  void set(Clock clock) {
+    clock.changeState(0);
+  }
+
+  @override
+  void inc(Clock clock) {
+    clock.mins = (clock.mins + 1) % 60;
+  }
+}
 
 void main(List<String> arguments) {
   List<String> msgs = [
@@ -57,6 +86,6 @@ void main(List<String> arguments) {
     'set'
   ];
   for (var msg in msgs) {
-    print(msgs);
+    print(msg);
   }
 }
