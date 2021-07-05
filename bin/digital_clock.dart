@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Clock {
   final List<State> states = [Idle(), SettingHours(), SettingMins()];
   int currentState = 0;
@@ -107,18 +109,24 @@ void main(List<String> arguments) {
   ];
 
   var clock = Clock();
+  // if not start with 'on' command then exit code.
+  if (msgs[0].contains('on')) {
+    if (msgs[0].split(' ').length > 1) {
+      // with time
+      var hours = int.parse(msgs[0].split(' ')[1]);
+      var mins = int.parse(msgs[0].split(' ')[2]);
+      clock.turnOn(hours, mins);
+    } else {
+      // without  time
+      clock.turnOn();
+    }
+  } else {
+    exit(0);
+  }
 
   for (var msg in msgs) {
     // print('>> >>> $msg , ${clock.states[clock.currentState]}');
-    if (msg.contains('on')) {
-      if (msg.split(' ').length > 1) {
-        var hours = int.parse(msg.split(' ')[1]);
-        var mins = int.parse(msg.split(' ')[2]);
-        clock.turnOn(hours, mins);
-      } else {
-        clock.turnOn();
-      }
-    } else if (msg == 'set') {
+    if (msg == 'set') {
       clock.set();
     } else if (msg == 'inc') {
       clock.inc();
