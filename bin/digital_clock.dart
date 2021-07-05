@@ -1,19 +1,17 @@
 class Clock {
   final List<State> states = [Idle(), SettingHours(), SettingMins()];
   int currentState = 0;
-  int hours = 0;
-  int mins = 0;
-  String get currentTime => '$hours:$mins';
+  int currentHours = 0;
+  int currentMins = 0;
+  String get currentTime => '$currentHours:$currentMins';
 
   void turnOn([int hours = -1, int mins = -1]) {
     if (hours == -1 && mins == -1) {
       states[currentState].turnOn(this);
     } else {
-      currentState = 1;
-      this.hours = hours;
-      this.mins = mins;
-      print('beep');
-      print(this.hours);
+      currentHours = hours;
+      currentMins = mins;
+      changeState(1);
     }
   }
 
@@ -28,14 +26,26 @@ class Clock {
   void changeState(int index) {
     currentState = index;
     if (index == 0) {
-      print('Current Time is ${this.currentTime}');
+      showCurrentTime();
     } else if (index == 1) {
       print('beep');
-      print('Current Hours is ${this.hours}');
+      showHours();
     } else if (index == 2) {
       print('beep');
-      print('Current Mins is ${this.mins}');
+      showMins();
     }
+  }
+
+  void showCurrentTime() {
+    print('Current Time is ${this.currentTime}');
+  }
+
+  void showHours() {
+    print('Current Hours is ${this.currentHours}');
+  }
+
+  void showMins() {
+    print('Current Mins is ${this.currentMins}');
   }
 }
 
@@ -56,7 +66,7 @@ abstract class State {
 class Idle extends State {
   @override
   void turnOn(Clock clock) {
-    print(clock.currentTime);
+    clock.showCurrentTime();
   }
 
   @override
@@ -73,8 +83,8 @@ class SettingHours extends State {
 
   @override
   void inc(Clock clock) {
-    clock.hours = (clock.hours + 1) % 24;
-    print(clock.hours);
+    clock.currentHours = (clock.currentHours + 1) % 24;
+    clock.showHours();
   }
 }
 
@@ -86,8 +96,8 @@ class SettingMins extends State {
 
   @override
   void inc(Clock clock) {
-    clock.mins = (clock.mins + 1) % 60;
-    print(clock.mins);
+    clock.currentMins = (clock.currentMins + 1) % 60;
+    clock.showMins();
   }
 }
 
@@ -127,6 +137,5 @@ void main(List<String> arguments) {
     } else if (msg == 'inc') {
       clock.inc();
     }
-    // print('>>>>> ${clock.states[clock.currentState]}');
   }
 }
