@@ -3,7 +3,7 @@ class Clock {
   int currentState = 0;
   int hours = 0;
   int mins = 0;
-  String get currentTime => '$hours : $mins';
+  String get currentTime => '$hours:$mins';
 
   void turnOn([int hours = -1, int mins = -1]) {
     if (hours == -1 && mins == -1) {
@@ -27,6 +27,15 @@ class Clock {
 
   void changeState(int index) {
     currentState = index;
+    if (index == 0) {
+      print('Current Time is ${this.currentTime}');
+    } else if (index == 1) {
+      print('beep');
+      print('Current Hours is ${this.hours}');
+    } else if (index == 2) {
+      print('beep');
+      print('Current Mins is ${this.mins}');
+    }
   }
 }
 
@@ -53,8 +62,6 @@ class Idle extends State {
   @override
   void set(Clock clock) {
     clock.changeState(1);
-    print('beep');
-    print(clock.hours);
   }
 }
 
@@ -62,8 +69,6 @@ class SettingHours extends State {
   @override
   void set(Clock clock) {
     clock.changeState(2);
-    print('beep');
-    print(clock.mins);
   }
 
   @override
@@ -88,8 +93,8 @@ class SettingMins extends State {
 
 void main(List<String> arguments) {
   List<String> msgs = [
-    'on 18 0',
     // 'on',
+    'on 18 0',
     'set',
     'inc',
     'set',
@@ -108,7 +113,7 @@ void main(List<String> arguments) {
   // }
   // msgs.removeAt(0);
   for (var msg in msgs) {
-    // print('>>>>> $msg , ${clock.states[clock.currentState]}');
+    // print('>> >>> $msg , ${clock.states[clock.currentState]}');
     if (msg.contains('on')) {
       if (msg.split(' ').length > 1) {
         int hours = int.parse(msg.split(' ')[1]);
