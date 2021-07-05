@@ -5,11 +5,15 @@ class Clock {
   int mins = 0;
   String get currentTime => '$hours : $mins';
 
-  void turnOn([int? hours, int? mins]) {
-    if (hours is null && mins is null){
-      currentState = 1;
-    }else{
+  void turnOn([int hours = -1, int mins = -1]) {
+    if (hours == -1 && mins == -1) {
       states[currentState].turnOn(this);
+    } else {
+      currentState = 1;
+      this.hours = hours;
+      this.mins = mins;
+      print('beep');
+      print(this.hours);
     }
   }
 
@@ -104,12 +108,12 @@ void main(List<String> arguments) {
   // }
   // msgs.removeAt(0);
   for (var msg in msgs) {
-    print('>>>>> $msg , ${clock.states[clock.currentState]}');
+    // print('>>>>> $msg , ${clock.states[clock.currentState]}');
     if (msg.contains('on')) {
       if (msg.split(' ').length > 1) {
         int hours = int.parse(msg.split(' ')[1]);
         int mins = int.parse(msg.split(' ')[2]);
-        clock.turnOn(hours,mins);
+        clock.turnOn(hours, mins);
       } else {
         clock.turnOn();
       }
